@@ -41,3 +41,6 @@
 .btn-cart:hover{
     background-color: orange;
 }
+.btn-cart:focus{
+    outline: none;
+}
