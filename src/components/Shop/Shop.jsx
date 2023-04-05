@@ -31,7 +31,7 @@ const Shop = () => {
                 // step 4: add to the added product to the saved cart
                 saveCart.push(addedProduct);
             }
-            console.log(addedProduct);
+            // console.log(addedProduct);
         }
         // step 5: set the cart
         setCart(saveCart)
