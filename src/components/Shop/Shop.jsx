@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { addToDb, getShoppingCart } from '../../utilities/fakedb';
+import { addToDb, deleteShoppingCart, getShoppingCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import './Shop.css';
+import { Link } from 'react-router-dom';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -17,14 +18,14 @@ const Shop = () => {
 
 
 
-    useEffect(()=>{
+    useEffect(() => {
         const storedCart = getShoppingCart();
         const saveCart = [];
         // step 1 : get the id of the added product 
-        for(const id in storedCart){
+        for (const id in storedCart) {
             //steps 2: get product from products state by using id
             const addedProduct = products.find(product => product.id === id)
-            if(addedProduct){
+            if (addedProduct) {
                 // steps 3: and quantity 
                 const quantity = storedCart[id]
                 addedProduct.quantity = quantity;
@@ -35,10 +36,10 @@ const Shop = () => {
         }
         // step 5: set the cart
         setCart(saveCart)
-    },[products])
-    
-    
-    
+    }, [products])
+
+
+
     const handleAddToCart = (product) => {
         // cart.push(product); 
         const newCart = [...cart, product];
@@ -46,10 +47,14 @@ const Shop = () => {
         addToDb(product.id)
     }
 
+    const handleClearCart = () => {
+        setCart([])
+        deleteShoppingCart();
+    }
 
- 
-    
-    
+
+
+
     // useEffect( ()=>{
     //     // console.log('product', products);
     //     const addedProduct = getShoppingCart();
@@ -76,7 +81,14 @@ const Shop = () => {
                 }
             </div>
             <div className="cart-container">
-                <Cart cart={cart}></Cart>
+                <Cart
+                    handleClearCart={handleClearCart}
+                    cart={cart}>
+
+                    <Link className='proceed-link' to="/orders">
+                           <button className='btn-proceed'>Review Order</button> 
+                    </Link>
+                </Cart>
             </div>
         </div>
     );
